@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import Login from "components/Login/Login";
-import SignUp from "components/SignUp/SignUp";
 
-const Home: React.FC = () => {
-  // Initialize state for login status
+const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  // Initialize state for form display (true for login, false for sign-up)
-  const [showLoginForm, setShowLoginForm] = useState<boolean>(true);
 
   // Check login status on component mount
   useEffect(() => {
@@ -17,27 +12,17 @@ const Home: React.FC = () => {
     }
   }, []);
 
-  // Function to handle logout
   const handleLogout = () => {
-    // Remove login status from localStorage
     localStorage.removeItem("isLoggedIn");
-    // Update login status
     setIsLoggedIn(false);
   };
 
-  const toggleForm = (): void => {
-    setShowLoginForm((prevValue) => !prevValue);
-  };
-
   return (
-    <div>
+    <div className="flex justify-center w-full items-center">
       {!isLoggedIn ? (
-        <>
-          {showLoginForm ? <Login setIsLoggedIn={setIsLoggedIn} /> : <SignUp />}
-          <button onClick={toggleForm}>
-            {showLoginForm ? "Sign Up" : "Login"}
-          </button>
-        </>
+        <div className="w-80 bg-white rounded-md p-4 mx-4">
+          <Login setIsLoggedIn={setIsLoggedIn} />
+        </div>
       ) : (
         <div>
           <h1 className="text-3xl font-bold underline text-red-600">
