@@ -1,12 +1,13 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-red-600">
-      Simple React Typescript Tailwind Sample
-    </h1>
+    <div className="bg-sky-900">
+      <div className="container mx-auto min-h-screen bg-sky-700 flex">
+        <Home />
+      </div>
+    </div>
   );
 }
 
