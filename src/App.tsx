@@ -27,18 +27,18 @@ function App() {
             </div>
           </div>
         ) : (
-          <div>
-            <div className="container mx-auto max-w-screen-xl">
+          <>
+            <div className="container mx-auto bg-sky-700 flex max-w-screen-xl">
               <NavBar setIsLoggedIn={setIsLoggedIn} />
+              <div className="flex container mx-auto min-h-[calc(100vh-4.625rem)] mt-[4.625rem] py-4">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dummy" element={<h1>DUMMY!!!</h1>} />
+                  <Route path="/details/:name" element={<DetailsPage />} />
+                </Routes>
+              </div>
             </div>
-            <div className="container mx-auto min-h-screen bg-sky-700 flex max-w-screen-xl">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dummy" element={<h1>DUMMY!!!</h1>} />
-                <Route path="/details/:name" element={<DetailsPage />} />
-              </Routes>
-            </div>
-          </div>
+          </>
         )}
       </div>
     </Router>
