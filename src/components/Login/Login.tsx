@@ -7,14 +7,10 @@ interface LoginProps {
 }
 
 const Login = ({ setIsLoggedIn }: LoginProps) => {
-  // Initialize state for email and password
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  // Initialize state for error messages
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  // Function to handle sign up
   const handleLogin = (): void => {
     // Validate email
     if (!validateEmail(email)) {
@@ -38,7 +34,7 @@ const Login = ({ setIsLoggedIn }: LoginProps) => {
     localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
 
-    // Reset form fields and display success message
+    // Reset form fields
     setEmail("");
     setPassword("");
     setErrorMessage("");
@@ -50,33 +46,35 @@ const Login = ({ setIsLoggedIn }: LoginProps) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <img className="mb-4" src="/pokedexlogo.png" alt="pokedexlogo" />
-      <div className="mb-4">
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={setEmail}
-          onFocus={clearErrorMessage}
-        />
+    <div className="w-80 bg-white rounded-md p-4 mx-4">
+      <div className="flex flex-col">
+        <img className="mb-4" src="/pokedexlogo.png" alt="pokedexlogo" />
+        <div className="mb-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={setEmail}
+            onFocus={clearErrorMessage}
+          />
+        </div>
+        <div className="mb-4">
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={setPassword}
+            onFocus={clearErrorMessage}
+          />
+        </div>
+        <button
+          className="rounded py-2 px-1 bg-yellow-500 text-sky-900 font-bold"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+        {errorMessage && <p className="text-red-600 mt-4">{errorMessage}</p>}
       </div>
-      <div className="mb-4">
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={setPassword}
-          onFocus={clearErrorMessage}
-        />
-      </div>
-      <button
-        className="rounded py-2 px-1 bg-yellow-500 text-sky-900 font-bold"
-        onClick={handleLogin}
-      >
-        Login
-      </button>
-      {errorMessage && <p className="text-red-600 mt-4">{errorMessage}</p>}
     </div>
   );
 };

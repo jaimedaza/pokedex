@@ -1,38 +1,63 @@
 import { useState, useEffect } from "react";
-import Login from "components/Login/Login";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { PokemonDetails } from "types/pokemonTypes";
+
+interface Pokemon {
+  name: string;
+  url: string;
+}
 
 const Home = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [pokemonList, setPokemonList] = useState<PokemonDetails[]>([]);
 
-  // Check login status on component mount
+  // Fetch data from PokeAPI on component mount
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn");
-    if (loggedIn === "true") {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    const fetchPokemon = async () => {
+      try {
+        const response = await axios.get("https://pokeapi.co/api/v2/pokemon/");
+        const { results } = response.data;
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
+        // Map over the array of Pokémon and fetch details for each one
+        const pokemonDetailsPromises = results.map(async (pokemon: Pokemon) => {
+          const pokemonResponse = await axios.get(pokemon.url);
+          return pokemonResponse.data;
+        });
+
+        // Wait for all requests to resolve
+        const pokemonDetails = await Promise.all(pokemonDetailsPromises);
+        console.log("pokemon details: ", pokemonDetails);
+        setPokemonList(pokemonDetails);
+      } catch (error) {
+        console.error("Error fetching Pokémon:", error);
+      }
+    };
+
+    fetchPokemon();
+  }, []);
 
   return (
     <div className="flex justify-center w-full items-center">
-      {!isLoggedIn ? (
-        <div className="w-80 bg-white rounded-md p-4 mx-4">
-          <Login setIsLoggedIn={setIsLoggedIn} />
-        </div>
-      ) : (
+      <div>
+        <p>This is the content for logged-in users.</p>
         <div>
-          <h1 className="text-3xl font-bold underline text-red-600">
-            Simple React Typescript Tailwind Sample
-          </h1>
-          <h2>Welcome to the Home Page!</h2>
-          <p>This is the content for logged-in users.</p>
-          <button onClick={handleLogout}>Logout</button>
+          <h1>Pokémon List</h1>
+          <ul>
+            {pokemonList.map((pokemon) => (
+              <li key={pokemon.id}>
+                <Link
+                  to={`/details/${pokemon.name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {pokemon.name} -{" "}
+                  {pokemon.types.map((type) => type.type.name).join(", ")}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
+      </div>
     </div>
   );
 };
