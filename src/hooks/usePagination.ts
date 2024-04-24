@@ -16,10 +16,15 @@ const usePagination = ({ initialPage = 1, totalPages }: PaginationOptions) => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
+  const goToPage = (pageNumber: number) => {
+    setCurrentPage(Math.max(1, Math.min(pageNumber, totalPages)));
+  };
+
   return {
     currentPage,
     handlePreviousPage,
     handleNextPage,
+    goToPage,
   };
 };
 

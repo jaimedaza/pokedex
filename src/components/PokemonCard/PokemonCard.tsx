@@ -37,11 +37,13 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
         </div>
         <div className="flex flex-col p-4">
           <img
-            src={pokemon.sprites.front_default}
+            src={pokemon.sprites.front_default || "/pokemonPlaceholder.png"}
             alt={`${pokemon.name} sprite`}
-            className="mx-auto"
+            className={`mx-auto max-w-24 ${
+              !pokemon.sprites.front_default && "py-4"
+            }`}
           />
-          <h5 className="text-center mt-2 font-mono text-white font-semibold italic capitalize">
+          <h5 className="text-center mt-2 font-mono text-white font-semibold italic capitalize max-w-24">
             {pokemon.name}
           </h5>
         </div>
