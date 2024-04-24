@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface NavBarProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -7,6 +7,7 @@ interface NavBarProps {
 
 const NavBar = ({ setIsLoggedIn }: NavBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,11 +16,12 @@ const NavBar = ({ setIsLoggedIn }: NavBarProps) => {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
+    navigate("/");
   };
 
   return (
-    <nav className="fixed top-0 max-w-screen-xl w-full bg-white border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="z-10 fixed top-0 max-w-screen-lg w-full bg-white border-gray-200">
+      <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
         <img className="w-28" src="/pokedexlogo.png" alt="pokedexlogo" />
         <button
           data-collapse-toggle="navbar-default"
@@ -60,10 +62,10 @@ const NavBar = ({ setIsLoggedIn }: NavBarProps) => {
             </li>
             <li>
               <Link
-                to="/dummy"
+                to="/favorites"
                 className="block py-2 px-3 text-sky-700 rounded md:p-0 hover:text-yellow-500"
               >
-                Dummy
+                Favorites
               </Link>
             </li>
             <li>

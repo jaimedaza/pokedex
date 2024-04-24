@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { PokemonDetails } from "types/pokemonTypes";
 import usePagination from "hooks/usePagination";
 import PaginationButtons from "components/PaginationButtons/PaginationButtons";
+import PokemonCard from "components/PokemonCard/PokemonCard";
 
 interface Pokemon {
   name: string;
@@ -43,28 +43,19 @@ const Home = () => {
     };
 
     fetchPokemon();
+    console.log("pokemon: ", pokemonList);
   }, [currentPage]);
 
   return (
     <div className="flex justify-center w-full items-center">
       <div>
-        <p>This is the content for logged-in users.</p>
         <div>
-          <h1>Pokémon List</h1>
-          <ul>
+          {/* <h1 className="text-2xl md:text-3xl lg:text-4xl">Pokémon List</h1> */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
             {pokemonList.map((pokemon) => (
-              <li key={pokemon.id}>
-                <Link
-                  to={`/details/${pokemon.name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {pokemon.name} -{" "}
-                  {pokemon.types.map((type) => type.type.name).join(", ")}
-                </Link>
-              </li>
+              <PokemonCard pokemon={pokemon} />
             ))}
-          </ul>
+          </div>
         </div>
         <PaginationButtons
           currentPage={currentPage}
