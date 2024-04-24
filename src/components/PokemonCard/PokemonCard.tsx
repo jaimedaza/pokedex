@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
@@ -13,16 +13,44 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
-    setIsFavorite((prevState) => !prevState);
+    setIsFavorite((prevIsFavorite) => {
+      const newIsFavorite = !prevIsFavorite;
+      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      if (newIsFavorite) {
+        // Add to favorites list
+        favorites.push(pokemon.id);
+      } else {
+        // Remove from favorites list
+        const index = favorites.indexOf(pokemon.id);
+        if (index !== -1) {
+          favorites.splice(index, 1);
+        }
+      }
+      // Update local storage
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      return newIsFavorite;
+    });
   };
 
+  useEffect(() => {
+    // Check if this Pokemon is in the favorites list when component mounts
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(favorites.includes(pokemon.id));
+  }, []);
+
   return (
-    <div key={pokemon.id} className="bg-sky-500 rounded relative">
+    <div
+      key={pokemon.id}
+      className="bg-sky-500 rounded relative hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+    >
       <div className="absolute top-0 right-0 bg-white px-2 rounded-bl rounded-tr">
-        <button onClick={toggleFavorite}>
+        <button
+          onClick={toggleFavorite}
+          className="transition-colors duration-300 ease-in-out focus:outline-none"
+        >
           <FontAwesomeIcon
             icon={isFavorite ? solidHeart : regularHeart}
-            className="text-red-500"
+            className={`text-red-500 ${isFavorite && "fa-beat"}`}
           />
         </button>
       </div>

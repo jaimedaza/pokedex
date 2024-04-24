@@ -20,7 +20,10 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-sky-900">
+      <div
+        className="bg-sky-900 bg-cover bg-top"
+        style={{ backgroundImage: "url('/forest.jpg')" }}
+      >
         {!isLoggedIn ? (
           <div className="container mx-auto min-h-screen bg-sky-700 flex max-w-screen-lg">
             <div className="flex justify-center w-full items-center">
@@ -29,7 +32,7 @@ function App() {
           </div>
         ) : (
           <>
-            <div className="container mx-auto bg-sky-700 flex max-w-screen-lg">
+            <div className="container mx-auto  flex max-w-screen-lg">
               <NavBar setIsLoggedIn={setIsLoggedIn} />
               <div className="flex container mx-auto min-h-[calc(100vh-4.625rem)] mt-[4.625rem] py-4">
                 <Routes>
