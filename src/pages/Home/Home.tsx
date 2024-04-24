@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { PokemonDetails } from "types/pokemonTypes";
-import usePagination from "hooks/usePagination";
+
 import PaginationButtons from "components/PaginationButtons/PaginationButtons";
 import PokemonCard from "components/PokemonCard/PokemonCard";
+import PokeballLoading from "components/Loading/PokeballLoading";
+
+import usePagination from "hooks/usePagination";
+import useLoading from "hooks/useLoading";
+
+import { PokemonDetails } from "types/pokemonTypes";
 
 interface Pokemon {
   name: string;
@@ -14,13 +19,16 @@ const Home = () => {
   const [pokemonList, setPokemonList] = useState<PokemonDetails[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
 
-  const { currentPage, handlePreviousPage, handleNextPage } = usePagination({
-    totalPages: totalPages,
-  });
+  const { isLoading, startLoading, stopLoading } = useLoading();
+  const { currentPage, handlePreviousPage, handleNextPage, goToPage } =
+    usePagination({
+      totalPages: totalPages,
+    });
 
   // Fetch data from PokeAPI on component mount
   useEffect(() => {
     const fetchPokemon = async () => {
+      startLoading();
       try {
         const response = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/?offset=${
@@ -39,11 +47,12 @@ const Home = () => {
         setTotalPages(Math.ceil(count / 20));
       } catch (error) {
         console.error("Error fetching Pokémon:", error);
+      } finally {
+        stopLoading();
       }
     };
 
     fetchPokemon();
-    console.log("pokemon: ", pokemonList);
   }, [currentPage]);
 
   return (
@@ -51,18 +60,25 @@ const Home = () => {
       <div>
         <div>
           {/* <h1 className="text-2xl md:text-3xl lg:text-4xl">Pokémon List</h1> */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
-            {pokemonList.map((pokemon) => (
-              <PokemonCard pokemon={pokemon} />
-            ))}
-          </div>
+          {isLoading ? (
+            <PokeballLoading />
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
+              {pokemonList.map((pokemon) => (
+                <PokemonCard key={pokemon.id} pokemon={pokemon} />
+              ))}
+            </div>
+          )}
         </div>
-        <PaginationButtons
-          currentPage={currentPage}
-          totalPages={totalPages}
-          handlePreviousPage={handlePreviousPage}
-          handleNextPage={handleNextPage}
-        />
+        <div className="mt-4">
+          <PaginationButtons
+            currentPage={currentPage}
+            goToPage={goToPage}
+            handlePreviousPage={handlePreviousPage}
+            handleNextPage={handleNextPage}
+            totalPages={totalPages}
+          />
+        </div>
       </div>
     </div>
   );
