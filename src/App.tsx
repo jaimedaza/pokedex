@@ -25,7 +25,7 @@ function App() {
         style={{ backgroundImage: "url('/forest.jpg')" }}
       >
         {!isLoggedIn ? (
-          <div className="container mx-auto min-h-screen bg-sky-700 flex max-w-screen-lg">
+          <div className="container mx-auto min-h-screen flex max-w-screen-lg">
             <div className="flex justify-center w-full items-center">
               <Login setIsLoggedIn={setIsLoggedIn} />
             </div>

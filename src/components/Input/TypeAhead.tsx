@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { PokemonDetails } from "types/pokemonTypes";
 
 interface TypeAheadProps {
@@ -38,18 +39,24 @@ const TypeAhead = ({ pokemonList }: TypeAheadProps) => {
           setSearchValue(e.target.value);
           fetchSuggestions(e.target.value);
         }}
-        // className="w-full border border-gray-300 rounded px-3 py-2"
-        className="w-full border border-gray-300 rounded px-3 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
+        className="w-full border text-sky-700 border-gray-300 rounded px-3 py-2 transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none"
       />
       {suggestions.length > 0 && (
         <ul className="absolute w-full max-h-40 overflow-y-auto border border-gray-300 rounded bg-white shadow-md z-10 mt-1">
           {suggestions.map((suggestion, index) => (
-            <li
-              key={index}
-              className="py-1 px-3 cursor-pointer hover:bg-gray-100 transition-all duration-300"
+            <Link
+              to={`/details/${suggestion}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
             >
-              {suggestion}
-            </li>
+              <li
+                key={index}
+                className="py-1 px-3 cursor-pointer text-sky-700 hover:bg-yellow-400 hover:text-white transition-all duration-300"
+              >
+                {suggestion}
+              </li>
+            </Link>
           ))}
         </ul>
       )}

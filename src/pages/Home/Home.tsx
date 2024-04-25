@@ -10,6 +10,7 @@ import usePagination from "hooks/usePagination";
 import useLoading from "hooks/useLoading";
 
 import { PokemonDetails } from "types/pokemonTypes";
+import useVisibilityTimer from "hooks/useVisibilityTimer";
 
 interface Pokemon {
   name: string;
@@ -25,6 +26,7 @@ const Home = () => {
     usePagination({
       totalPages: totalPages,
     });
+  const isVisible = useVisibilityTimer();
 
   // Fetch data from PokeAPI on component mount
   useEffect(() => {
@@ -62,7 +64,13 @@ const Home = () => {
         <PokeballLoading />
       ) : (
         <div className="flex flex-col">
-          <div className="my-8">
+          <div
+            className={`z-10 my-8 transition duration-300 ease-in-out transform hover:scale-105 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-6"
+            }`}
+          >
             <TypeAhead pokemonList={pokemonList} />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
@@ -70,7 +78,13 @@ const Home = () => {
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))}
           </div>
-          <div className="mt-4">
+          <div
+            className={`mt-4 transition duration-300 ease-in-out transform hover:scale-105 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-6"
+            }`}
+          >
             <PaginationButtons
               currentPage={currentPage}
               goToPage={goToPage}
