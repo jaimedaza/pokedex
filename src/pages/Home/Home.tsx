@@ -4,6 +4,7 @@ import axios from "axios";
 import PaginationButtons from "components/PaginationButtons/PaginationButtons";
 import PokemonCard from "components/PokemonCard/PokemonCard";
 import PokeballLoading from "components/Loading/PokeballLoading";
+import TypeAhead from "components/Input/TypeAhead";
 
 import usePagination from "hooks/usePagination";
 import useLoading from "hooks/useLoading";
@@ -56,32 +57,30 @@ const Home = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex justify-center w-full items-center">
-      <div>
-        <div>
-          {/* <h1 className="text-2xl md:text-3xl lg:text-4xl">Pokémon List</h1> */}
-          {isLoading ? (
-            <PokeballLoading />
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
-                {pokemonList.map((pokemon) => (
-                  <PokemonCard key={pokemon.id} pokemon={pokemon} />
-                ))}
-              </div>
-              <div className="mt-4">
-                <PaginationButtons
-                  currentPage={currentPage}
-                  goToPage={goToPage}
-                  handlePreviousPage={handlePreviousPage}
-                  handleNextPage={handleNextPage}
-                  totalPages={totalPages}
-                />
-              </div>
-            </>
-          )}
+    <div className="flex justify-center w-full overflow-y-scroll">
+      {isLoading ? (
+        <PokeballLoading />
+      ) : (
+        <div className="flex flex-col">
+          <div className="my-8">
+            <TypeAhead pokemonList={pokemonList} />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
+            {pokemonList.map((pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))}
+          </div>
+          <div className="mt-4">
+            <PaginationButtons
+              currentPage={currentPage}
+              goToPage={goToPage}
+              handlePreviousPage={handlePreviousPage}
+              handleNextPage={handleNextPage}
+              totalPages={totalPages}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
