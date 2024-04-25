@@ -6,6 +6,13 @@ Jaime's Pokedex App provides information about various Pokémon species. Users c
 
 https://github.com/jaimedaza/pokedex/assets/31707782/643d4b4b-9869-46eb-ba6f-6d8d7e276bbd
 
+#### Home
+
+https://github.com/jaimedaza/pokedex/assets/31707782/709b6389-f278-46a2-9caf-fff28473e90a
+
+#### Favorites
+
+https://github.com/jaimedaza/pokedex/assets/31707782/9c33a29c-4cd4-4273-b97a-96793c72a39d
 
 ## Installation
 
