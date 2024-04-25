@@ -14,6 +14,11 @@ https://github.com/jaimedaza/pokedex/assets/31707782/709b6389-f278-46a2-9caf-fff
 
 https://github.com/jaimedaza/pokedex/assets/31707782/9c33a29c-4cd4-4273-b97a-96793c72a39d
 
+#### Details
+
+https://github.com/jaimedaza/pokedex/assets/31707782/805439bc-13ac-4996-8ca0-dbbe54012700
+
+
 ## Installation
 
 1. Clone the repository: `git clone https://github.com/jaimedaza/pokedex.git`
