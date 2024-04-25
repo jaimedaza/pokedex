@@ -2,6 +2,11 @@
 
 Jaime's Pokedex App provides information about various Pokémon species. Users can view details such as the Pokémon's name, type, abilities, stats, and images.
 
+#### Login
+
+https://github.com/jaimedaza/pokedex/assets/31707782/643d4b4b-9869-46eb-ba6f-6d8d7e276bbd
+
+
 ## Installation
 
 1. Clone the repository: `git clone https://github.com/jaimedaza/pokedex.git`
