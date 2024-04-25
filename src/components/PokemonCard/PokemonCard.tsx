@@ -1,42 +1,12 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
-import { PokemonDetails } from "types/pokemonTypes";
-
-interface PokemonCardProps {
-  pokemon: PokemonDetails;
-}
+import useFavorites from "hooks/useFavorites";
+import { PokemonCardProps } from "types/pokemonTypes";
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const toggleFavorite = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-      if (newIsFavorite) {
-        // Add to favorites list
-        favorites.push(pokemon.id);
-      } else {
-        // Remove from favorites list
-        const index = favorites.indexOf(pokemon.id);
-        if (index !== -1) {
-          favorites.splice(index, 1);
-        }
-      }
-      // Update local storage
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      return newIsFavorite;
-    });
-  };
-
-  useEffect(() => {
-    // Check if this Pokemon is in the favorites list when component mounts
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorite(favorites.includes(pokemon.id));
-  }, []);
+  const { isFavorite, toggleFavorite } = useFavorites(pokemon);
 
   return (
     <div

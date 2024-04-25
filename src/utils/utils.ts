@@ -19,6 +19,16 @@ export const validateEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
+export const convertWeight = (weight: number): string => {
+  const kg = weight / 10;
+  return `${kg} KG`;
+};
+
+export const convertHeight = (height: number): string => {
+  const meters = height / 10;
+  return `${meters} M`;
+};
+
 export const typeColors = {
   normal: "#A8A77A",
   fighting: "#C22E28",

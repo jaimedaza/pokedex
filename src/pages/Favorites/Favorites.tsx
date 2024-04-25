@@ -39,19 +39,16 @@ const FavoritesPage = () => {
   }, []);
 
   return (
-    <div className="flex justify-center w-full items-center">
-      <div>
-        {/* <h1 className="text-2xl md:text-3xl lg:text-4xl">Favorite Pokémon</h1> */}
-        {isLoading ? (
-          <PokeballLoading />
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
-            {favoritePokemon.map((pokemon) => (
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
-            ))}
-          </div>
-        )}
-      </div>
+    <div className="flex justify-center w-full overflow-y-scroll pt-4">
+      {isLoading ? (
+        <PokeballLoading />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-5 grid-flow-row gap-4">
+          {favoritePokemon.map((pokemon) => (
+            <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

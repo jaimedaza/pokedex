@@ -1,6 +1,6 @@
 const PokeballLoading = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center">
       <div className="w-24 h-24 relative animate-spin">
         <div className="w-full h-1/2 bg-red-500 rounded-t-full border-4 border-black"></div>
         <div className="w-full h-1/2 bg-white rounded-b-full border-4 border-black"></div>

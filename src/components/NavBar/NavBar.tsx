@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface NavBarProps {
@@ -7,7 +7,6 @@ interface NavBarProps {
 
 const NavBar = ({ setIsLoggedIn }: NavBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -20,24 +19,8 @@ const NavBar = ({ setIsLoggedIn }: NavBarProps) => {
     navigate("/");
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      setIsScrolled(scrollTop > 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <nav
-      className={`z-10 fixed top-0 max-w-screen-lg w-full bg-white transition-all duration-300 ${
-        isScrolled ? "sm:bg-white" : "sm:bg-transparent"
-      }  border-gray-200`}
-    >
+    <nav className="z-10 fixed top-0 max-w-screen-lg w-full bg-transparent border-gray-200">
       <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
         <img className="w-28" src="/pokedexlogo.png" alt="pokedexlogo" />
         <button
