@@ -3,19 +3,24 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 
 import useFavorites from "hooks/useFavorites";
+import useVisibilityTimer from "hooks/useVisibilityTimer";
+
 import { PokemonCardProps } from "types/pokemonTypes";
 import { convertHeight, convertWeight } from "utils/utils";
 import { typeColors, statAbbreviations, statColors } from "utils/constants";
 
 const PokemonDetailCard = ({ pokemon }: PokemonCardProps) => {
   const { isFavorite, toggleFavorite } = useFavorites(pokemon);
+  const isVisible = useVisibilityTimer();
 
   return (
     <>
       {pokemon && (
         <div
           key={pokemon.id}
-          className="w-72 bg-sky-500 rounded relative hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+          className={`w-72 bg-sky-500 rounded relative hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6"
+          }`}
         >
           <div className="absolute top-0 right-0 bg-white px-2 rounded-bl rounded-tr">
             <button
@@ -48,7 +53,6 @@ const PokemonDetailCard = ({ pokemon }: PokemonCardProps) => {
             </h3>
 
             {/* Types */}
-            {/* <p>{pokemon.types.map((type) => type.type.name).join(", ")}</p> */}
             <div className="flex justify-evenly">
               {pokemon.types.map((type, index) => (
                 <div

@@ -2,16 +2,22 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+
 import useFavorites from "hooks/useFavorites";
+import useVisibilityTimer from "hooks/useVisibilityTimer";
+
 import { PokemonCardProps } from "types/pokemonTypes";
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { isFavorite, toggleFavorite } = useFavorites(pokemon);
+  const isVisible = useVisibilityTimer();
 
   return (
     <div
       key={pokemon.id}
-      className="bg-sky-500 rounded relative hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+      className={`max-h-40 bg-sky-500 rounded relative hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6"
+      }`}
     >
       <div className="absolute top-0 right-0 bg-white px-2 rounded-bl rounded-tr">
         <button
