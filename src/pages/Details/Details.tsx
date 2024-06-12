@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 
 import PokeballLoading from "components/Loading/PokeballLoading";
 
@@ -8,6 +7,7 @@ import useLoading from "hooks/useLoading";
 
 import { PokemonDetails } from "types/pokemonTypes";
 import PokemonDetailCard from "components/PokemonCard/PokemonDetailCard";
+import { fetchPokemonDetails } from "services/api/pokemonApi";
 
 const DetailsPage = () => {
   const { name } = useParams();
@@ -17,21 +17,7 @@ const DetailsPage = () => {
   const { isLoading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
-    const fetchPokemonDetails = async () => {
-      startLoading();
-      try {
-        const response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/${name}`
-        );
-        setPokemonDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching Pokémon details:", error);
-      } finally {
-        stopLoading();
-      }
-    };
-
-    fetchPokemonDetails();
+    fetchPokemonDetails({ name, startLoading, stopLoading, setPokemonDetails });
   }, [name]);
 
   return (

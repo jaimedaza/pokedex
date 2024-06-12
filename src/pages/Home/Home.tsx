@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 import PaginationButtons from "components/PaginationButtons/PaginationButtons";
 import PokemonCard from "components/PokemonCard/PokemonCard";
@@ -11,11 +10,7 @@ import useLoading from "hooks/useLoading";
 
 import { PokemonDetails } from "types/pokemonTypes";
 import useVisibilityTimer from "hooks/useVisibilityTimer";
-
-interface Pokemon {
-  name: string;
-  url: string;
-}
+import { fetchPokemon } from "services/api/pokemonApi";
 
 const Home = () => {
   const [pokemonList, setPokemonList] = useState<PokemonDetails[]>([]);
@@ -28,34 +23,14 @@ const Home = () => {
     });
   const isVisible = useVisibilityTimer();
 
-  // Fetch data from PokeAPI on component mount
   useEffect(() => {
-    const fetchPokemon = async () => {
-      startLoading();
-      try {
-        const response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/?offset=${
-            (currentPage - 1) * 20
-          }&limit=20`
-        );
-        const { results, count } = response.data;
-
-        const pokemonDetailsPromises = results.map(async (pokemon: Pokemon) => {
-          const pokemonResponse = await axios.get(pokemon.url);
-          return pokemonResponse.data;
-        });
-
-        const pokemonDetails = await Promise.all(pokemonDetailsPromises);
-        setPokemonList(pokemonDetails);
-        setTotalPages(Math.ceil(count / 20));
-      } catch (error) {
-        console.error("Error fetching Pokémon:", error);
-      } finally {
-        stopLoading();
-      }
-    };
-
-    fetchPokemon();
+    fetchPokemon({
+      currentPage,
+      startLoading,
+      stopLoading,
+      setPokemonList,
+      setTotalPages,
+    });
   }, [currentPage]);
 
   return (
